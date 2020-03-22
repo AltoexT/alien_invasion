@@ -127,6 +127,7 @@ def update_collision(aliens, bullets, ship, game_stats, setting, score_board):
     if pygame.sprite.groupcollide(bullets, aliens, True, True):  # 检测子弹与外星人碰撞
         game_stats.score += 10 * setting.game_difficulty
         score_board.prep_score()
+        Alien.killed += 1
     if pygame.sprite.spritecollideany(ship, aliens):
         aliens.empty()
         bullets.empty()
@@ -134,6 +135,7 @@ def update_collision(aliens, bullets, ship, game_stats, setting, score_board):
         game_stats.ship_life -= 1
         ship.reset_center()
         ship.update()
+
         score_board.prep_ships()
         if game_stats.ship_life < 0:
             score_board.prep_death_score()
@@ -148,7 +150,8 @@ def update_collision(aliens, bullets, ship, game_stats, setting, score_board):
             score_board.prep_level()
             score_board.show_scoreboard()
             score_board.show_level()
-            Alien.killed = 0
+            setting.reset()
+            Alien.killed = 0  # 若析构函数导致非击杀飞船也被计入，引发异常
 
 
 def check_play_button(mouse_x, mouse_y, play_button, game_stats):

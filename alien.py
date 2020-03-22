@@ -39,7 +39,3 @@ class Alien(pygame.sprite.Sprite):
             self.direction = 1
         elif self.x + self.rect.width >= self.setting.width:
             self.direction = 0
-
-    def __del__(self):
-        '''外星人被消灭时所做操作'''
-        Alien.killed += 1
